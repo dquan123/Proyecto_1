@@ -24,5 +24,19 @@ public class Interprete {
 
         return lista; //Devuelve la lista
     }
+
+    //Función que evalúa toda la expresión (El programa)
+    public void evaluar(ArrayList<String> tokens){
+        Operaciones a = new Operaciones();
+        for (int i = 0; i < tokens.size(); i++) {
+            if (tokens.get(i).equals("print")){
+                if (tokens.get(i-1).equals("(")) {
+                    a.print(tokens.get(i+1));
+                } else {
+                    System.out.println("Hay un error de sintaxis en el print");
+                }
+            }
+        }
+    }
     
 }

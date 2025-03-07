@@ -19,7 +19,12 @@ public class Principal {
 
             Interprete interprete = new Interprete(codigo);
             ArrayList<String> tokens = interprete.token(codigo);
+
             System.out.println(tokens);
+            System.out.println("\n");
+            
+            interprete.evaluar(tokens);
+
 
         } catch (IOException e) {
             System.out.println("Error al leer el archivo: " + e.getMessage());
