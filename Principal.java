@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Principal {
@@ -16,7 +17,9 @@ public class Principal {
                 return;
             }
 
-            System.out.println(codigo);
+            Interprete interprete = new Interprete(codigo);
+            ArrayList<String> tokens = interprete.token(codigo);
+            System.out.println(tokens);
 
         } catch (IOException e) {
             System.out.println("Error al leer el archivo: " + e.getMessage());

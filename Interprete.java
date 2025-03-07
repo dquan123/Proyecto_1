@@ -1,14 +1,28 @@
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+//Clase intérprete, es en esta en donde se evalúa la expresión
 public class Interprete {
-    private String cadena;
+    public String cadena; //Tiene como atributo la cadena (el código ingresado al programa)
 
-    private Interprete(String cadena) {
+    public Interprete(String cadena) {
         this.cadena = cadena;
     }
     
+    //Función que recibe la cadena y devuelve una lista con los operandos y operadores en distintas posiciones
     public ArrayList<String> token(String cadena) {
-       return new ArrayList<>();
+
+        ArrayList<String> lista = new ArrayList<>(); //Crea la lista que se devolverá
+        
+        Pattern pattern = Pattern.compile("[\\wáéíóúüñ]+|[.,!?;:\"'()/¡¿+--*]"); //Genera el patrón que buscará palabras y signos de puntuación usando la expresión regular
+        Matcher matcher = pattern.matcher(cadena); //Usa el patrón generado para buscar coincidencias en la cadena
+
+        while (matcher.find()) { //Se repite con cada coincidencia de la expresión regular dentro de la cadena
+            lista.add(matcher.group()); //Agrega a la lista cada coincidencia
+        }
+
+        return lista; //Devuelve la lista
     }
     
 }
