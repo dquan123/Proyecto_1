@@ -9,7 +9,7 @@ public class Principal {
         Scanner scanner = new Scanner(System.in);
         
         try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
-            String codigo = br.readLine(); 
+            String codigo = br.readLine().trim(); 
 
             if (codigo.isEmpty()) {
                 System.out.println("El archivo está vacío o contiene una línea vacía.");
