@@ -153,6 +153,6 @@ public class Operaciones {
             return; // Interrumpe el método para no seguir validando
         } catch (NumberFormatException e) { // Si no lo logra, arroja una excepción.
         }
-        Cadenas.put(variable, valor); // Si nada de lo anterior funciona, entonces lo mete al hashmap de cadenas
+        Cadenas.put(variable, valor); // Si nada de lo anterior funciona, entonces lo mete al hashmap de cadenas.
     }
 }
