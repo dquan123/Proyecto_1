@@ -11,6 +11,11 @@ public class Operaciones {
         System.out.println(cadena); //Imprime en pantalla la cadena que recibió (el parámetro)
     }
 
+    //Función que verifica si el argumento es un átomo (cualquier objeto que no sea una lista)
+    public boolean atom(Object obj) {
+        return !(obj instanceof ArrayList); //Devuelve true si el objeto no es una lista, false en caso contrario
+    }
+
     //Función que hace la suma de la cantidad de valores que vengan en la lista
     public int suma(ArrayList<Integer> argumentos){
         int suma = 0; //Variable para almacenar la suma
