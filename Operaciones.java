@@ -51,4 +51,16 @@ public class Operaciones {
         }
         return r; //Devuelve el resultado
     }
+
+    public boolean menorQue (int a, int b){
+        return a < b;
+    }
+
+    public boolean mayorQue (int a, int b){
+        return a > b;
+    }
+
+    public boolean equal(int a , int b){
+        return a == b;
+    }
 }
