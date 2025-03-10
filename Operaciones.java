@@ -91,7 +91,7 @@ public class Operaciones {
         }
         try {
             int z = Integer.parseInt(valor); //Intenta convertirlo a un entero
-            enteros.put(variable, (Integer) z); //Si lo logra, lo mete al hashmap de enteros
+            enteros.put(variable, (Integer) z); //Si lo logra, lo mete al hashmap de enteros.
             return; //Interrumpe el método para no seguir validando
         } catch (NumberFormatException e) { //Si no lo logra, arroja una excepción.
         }
