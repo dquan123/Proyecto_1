@@ -75,9 +75,7 @@ public class Operaciones {
         return argumentos; //Retorna esa misma lista sin hacer ningún cambio.
     }
 
-    private HashMap<String, Integer> enteros = new HashMap<>();
-    private HashMap<String, String> Cadenas = new HashMap<>();
-    private HashMap<String, Boolean> Booleanos = new HashMap<>();
+
 
 
 
