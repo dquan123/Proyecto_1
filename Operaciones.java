@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Operaciones {
     
@@ -62,5 +63,9 @@ public class Operaciones {
 
     public boolean equal(int a , int b){
         return a == b;
+    }
+
+    public List<Integer> Quote(List<Integer> argumentos){ //Recibe una lista.
+        return argumentos; //Retorna esa misma lista sin hacer ningún cambio.
     }
 }
