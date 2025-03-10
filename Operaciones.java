@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Operaciones {
@@ -72,5 +73,28 @@ public class Operaciones {
 
     public List<Integer> Quote(List<Integer> argumentos){ //Recibe una lista.
         return argumentos; //Retorna esa misma lista sin hacer ningún cambio.
+    }
+
+    private HashMap<String, Integer> enteros = new HashMap<>();
+    private HashMap<String, String> Cadenas = new HashMap<>();
+    private HashMap<String, Boolean> Booleanos = new HashMap<>();
+
+
+
+    public void setq(String variable, String valor) { //Recibe la variable y el valor
+        if (valor.equalsIgnoreCase("true")) { //Revisa si el valor es un true (boolean)
+            Booleanos.put(variable, (Boolean) true); //Si es un true, lo mete al hashmap de booleanos
+            return; //Interrumpe el método para no seguir validando
+        } else if (valor.equalsIgnoreCase("false")) { //Revisa si el valor es un false (boolean)
+            Booleanos.put(variable, (Boolean) false); //Si es un false, lo mete al hashmap de booleanos
+            return; //Interrumpe el método para no seguir validando
+        }
+        try {
+            int z = Integer.parseInt(valor); //Intenta convertirlo a un entero
+            enteros.put(variable, (Integer) z); //Si lo logra, lo mete al hashmap de enteros
+            return; //Interrumpe el método para no seguir validando
+        } catch (NumberFormatException e) { //Si no lo logra, arroja una excepción.
+        }
+        Cadenas.put(variable, (String) valor); //Si nada de lo anterior funciona, entonces lo mete al hashmap de cadenas
     }
 }
