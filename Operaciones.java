@@ -50,30 +50,18 @@ public class Operaciones {
         return suma; // Devuelve la suma
     }
 
-<<<<<<< HEAD
-    //Función que hace la resta de la cantidad de valores que vengan en la lista
+    /**
+     * Función que realiza la resta de los valores en la lista.
+     * @param argumentos Lista de enteros a restar.
+     * @return El resultado de la resta.
+     */
     public int resta(ArrayList<Integer> argumentos) {
         int resta = argumentos.get(0); // Tomar el primer valor como base
         for (int i = 1; i < argumentos.size(); i++) { // Recorrer desde la segunda posición
             resta -= argumentos.get(i); // Restar el valor real, no el índice
         }
         return resta; // Devolver el resultado
-}
-
-=======
-    /**
-     * Función que realiza la resta de los valores en la lista.
-     * @param argumentos Lista de enteros a restar.
-     * @return El resultado de la resta.
-     */
-    public int resta(ArrayList<Integer> argumentos){
-        int resta = argumentos.get(0); // Variable que comienza con el primer valor de la lista
-        for (int numero=1 ; numero < argumentos.size() ; numero++){ // Se recorre un ciclo desde la segunda posición
-            resta -= numero; // Se le resta cada número
-        }
-        return resta; // Devuelve la resta
     }
->>>>>>> 93a9df3c17fb799a572f8d3eadfdafbca00e0465
 
     /**
      * Función que realiza la multiplicación de los valores en la lista.
@@ -94,17 +82,11 @@ public class Operaciones {
      * @return El resultado de la división.
      */
     public int division(ArrayList<Integer> argumentos){
-<<<<<<< HEAD
         int r = argumentos.get(0); //Variable que comienza con el primer valor de la lista
         for (int numero=1 ; numero < argumentos.size() ; numero++){ //Se recorre un ciclo desde la segunda posición
             r = r / argumentos.get(numero); //Se divide entre cada término de la lista
-=======
-        int r = argumentos.get(0); // Variable que comienza con el primer valor de la lista
-        for (int numero=1 ; numero < argumentos.size() ; numero++){ // Se recorre un ciclo desde la segunda posición
-            r = r / numero; // Se divide entre cada término de la lista
->>>>>>> 93a9df3c17fb799a572f8d3eadfdafbca00e0465
         }
-        return r; // Devuelve el resultado
+            return r; // Devuelve el resultado
     }
 
     /**
