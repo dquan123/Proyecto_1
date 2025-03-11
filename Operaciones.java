@@ -21,13 +21,14 @@ public class Operaciones {
     }
 
     //Función que hace la resta de la cantidad de valores que vengan en la lista
-    public int resta(ArrayList<Integer> argumentos){
-        int resta = argumentos.get(0); //Variable que comienza con el primer valor de la lista
-        for (int numero=1 ; numero < argumentos.size() ; numero++){ //Se recorre un ciclo desde la segunda posición
-            resta -= numero; //Se le resta cada número
+    public int resta(ArrayList<Integer> argumentos) {
+        int resta = argumentos.get(0); // Tomar el primer valor como base
+        for (int i = 1; i < argumentos.size(); i++) { // Recorrer desde la segunda posición
+            resta -= argumentos.get(i); // Restar el valor real, no el índice
         }
-        return resta; //Devuelve la resta
-    }
+        return resta; // Devolver el resultado
+}
+
 
     //Función que hace la multiplicación de la cantidad de valores que vengan en la lista
     public int multiplicacion(ArrayList<Integer> argumentos){
@@ -42,7 +43,7 @@ public class Operaciones {
     public int division(ArrayList<Integer> argumentos){
         int r = argumentos.get(0); //Variable que comienza con el primer valor de la lista
         for (int numero=1 ; numero < argumentos.size() ; numero++){ //Se recorre un ciclo desde la segunda posición
-            r = r / numero; //Se divide entre cada término de la lista
+            r = r / argumentos.get(numero); //Se divide entre cada término de la lista
         }
         return r; //Devuelve el resultado
     }

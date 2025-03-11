@@ -22,7 +22,7 @@ public class Principal {
 
             System.out.println(tokens);
             System.out.println("\n");
-            
+
             interprete.evaluar(tokens);
 
 

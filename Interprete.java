@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,18 +27,65 @@ public class Interprete {
         return lista; //Devuelve la lista
     }
 
-    //Función que evalúa toda la expresión (El programa)
-    public void evaluar(ArrayList<String> tokens){
-        Operaciones a = new Operaciones();
-        for (int i = 0; i < tokens.size(); i++) {
-            if (tokens.get(i).equals("print")){
-                if (tokens.get(i-1).equals("(")) {
-                    a.print(tokens.get(i+1));
-                } else {
-                    System.out.println("Hay un error de sintaxis en el print");
+//Función que evalúa toda la expresión (El programa)
+public void evaluar(ArrayList<String> tokens){
+    Operaciones a = new Operaciones();
+    Stack<String> stack = new Stack<>();
+    
+    for (String token : tokens) {
+        if (token.equals(")")) {
+            ArrayList<String> temporal = new ArrayList<>();
+            String r;
+            
+            // Extraer elementos hasta encontrar "("
+            do {
+                r = stack.pop();
+                temporal.add(String.valueOf(r));
+            } while (!r.equals("("));
+
+            String operador = temporal.get(temporal.size() - 2);
+            temporal.remove(temporal.size() - 1);
+            temporal.remove(temporal.size() - 1);
+
+            // Ejecutar operación según el operador
+            if (operador.equals("+")) {
+                ArrayList<Integer> listaEnteros = new ArrayList<>();
+                for (String s : temporal) {
+                    listaEnteros.add(Integer.parseInt(s));
                 }
+                Collections.reverse(listaEnteros);
+                stack.push(String.valueOf(a.suma(listaEnteros))); // Apilar el resultado
+            } else if (operador.equals("*")) {
+                ArrayList<Integer> listaEnteros = new ArrayList<>();
+                for (String s : temporal) {
+                    listaEnteros.add(Integer.parseInt(s));
+                }
+                Collections.reverse(listaEnteros);
+                stack.push(String.valueOf(a.multiplicacion(listaEnteros))); // Apilar el resultado
+            } else if (operador.equals("-")) {
+                ArrayList<Integer> listaEnteros = new ArrayList<>();
+                for (String s : temporal) {
+                    listaEnteros.add(Integer.parseInt(s));
+                }
+                Collections.reverse(listaEnteros);
+                stack.push(String.valueOf(a.resta(listaEnteros))); // Apilar el resultado
+            } else if (operador.equals("/")) {
+                ArrayList<Integer> listaEnteros = new ArrayList<>();
+                for (String s : temporal) {
+                    listaEnteros.add(Integer.parseInt(s));
+                }
+                Collections.reverse(listaEnteros);
+                stack.push(String.valueOf(a.division(listaEnteros))); // Apilar el resultado
             }
+            
+        } else {
+            stack.push(token);
         }
     }
+    
+    System.out.println("Resultado final en la pila: " + stack);
+}
+
+
     
 }
