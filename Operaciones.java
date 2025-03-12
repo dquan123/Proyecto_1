@@ -3,12 +3,15 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Operaciones {
+
+    private Entorno entorno;
     
     /**
-     * Constructor vacío de la clase Operaciones.
+     * Constructor de la clase Operaciones que instancia la clase entorno.
      */
     public Operaciones() {
-        // Constructor vacío
+        this.entorno = new Entorno();
+
     }
 
     /**
@@ -141,18 +144,18 @@ public class Operaciones {
      */
     public void setq(String variable, String valor) {
         if (valor.equalsIgnoreCase("true")) { // Revisa si el valor es un true (boolean)
-            Booleanos.put(variable, true); // Si es un true, lo mete al hashmap de booleanos
+            entorno.getBooleanos().put(variable, true); // Si es un true, lo mete al hashmap de booleanos
             return; // Interrumpe el método para no seguir validando
         } else if (valor.equalsIgnoreCase("false")) { // Revisa si el valor es un false (boolean)
-            Booleanos.put(variable, false); // Si es un false, lo mete al hashmap de booleanos
+            entorno.getBooleanos().put(variable, false); // Si es un false, lo mete al hashmap de booleanos
             return; // Interrumpe el método para no seguir validando
         }
         try {
             int z = Integer.parseInt(valor); // Intenta convertirlo a un entero
-            enteros.put(variable, z); // Si lo logra, lo mete al hashmap de enteros.
+            entorno.getEnteros().put(variable, z); // Si lo logra, lo mete al hashmap de enteros.
             return; // Interrumpe el método para no seguir validando
         } catch (NumberFormatException e) { // Si no lo logra, arroja una excepción.
         }
-        Cadenas.put(variable, valor); // Si nada de lo anterior funciona, entonces lo mete al hashmap de cadenas.
+        entorno.getCadenas().put(variable, valor); // Si nada de lo anterior funciona, entonces lo mete al hashmap de cadenas.
     }
 }

@@ -10,4 +10,16 @@ public class Entorno {
         HashMap<String, String> Cadenas = new HashMap<>();
         HashMap<String, Boolean> Booleanos = new HashMap<>();
     }
+
+    public HashMap<String, String> getCadenas() {
+        return Cadenas;
+    }
+
+    public HashMap<String, Integer> getEnteros() {
+        return enteros;
+    }
+
+    public HashMap<String, Boolean> getBooleanos() {
+        return Booleanos;
+    }
 }
