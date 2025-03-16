@@ -96,6 +96,9 @@ public void evaluar(ArrayList<String> tokens){
             stack.push(token);
         }
     }
+    if (!stack.isEmpty()) {
+        a.print(stack.peek());
+    }    
     
 }
 
