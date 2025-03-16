@@ -23,55 +23,64 @@ public class TestEvaluar {
     
     /**
      * Caso de prueba 1:
-     * Entrada: ["(", "+", "3", "4", ")"]
+     * Entrada: ["(", "print", "(", "+", "3", "4", ")", ")"]
      * Se espera que se imprima “7”.
      */
     @Test
     public void testEvaluarSuma() {
-        ArrayList<String> tokens = new ArrayList<>(Arrays.asList("(", "+", "3", "4", ")"));
-        // El string de entrada en el constructor no se usa en evaluar() cuando se pasan tokens manualmente.
+        ArrayList<String> tokens = new ArrayList<>(Arrays.asList("(", "print", "(", "+", "3", "4", ")", ")"));
         Interprete interprete = new Interprete("");
         interprete.evaluar(tokens);
         
-        // Se espera que, tras la evaluación, se imprima "7" seguido de un salto de línea.
         String expectedOutput = "7" + System.lineSeparator();
-        assertEquals("La evaluación de la expresión ( + 3 4 ) debe imprimir 7",
+        assertEquals("La evaluación de la expresión ( print ( + 3 4 ) ) debe imprimir 7",
                      expectedOutput, outContent.toString());
     }
     
     /**
      * Caso de prueba 2:
-     * Entrada: ["(", "*", "(", "+", "10", "2", ")", "(", "-", "8", "3", ")", ")"]
+     * Entrada: ["(", "print", "(", "*", "(", "+", "10", "2", ")", "(", "-", "8", "3", ")", ")", ")"]
      * Se espera que se imprima “60”.
+     * 
+     * Cálculo:
+     *   ( + 10 2 ) => 12  
+     *   ( - 8 3 )  => 5  
+     *   ( * 12 5 ) => 60
      */
     @Test
     public void testEvaluarMultiplicacionYResta() {
         ArrayList<String> tokens = new ArrayList<>(Arrays.asList(
-            "(", "*", "(", "+", "10", "2", ")", "(", "-", "8", "3", ")", ")"
+            "(", "print", "(", "*", "(", "+", "10", "2", ")", "(", "-", "8", "3", ")", ")", ")"
         ));
         Interprete interprete = new Interprete("");
         interprete.evaluar(tokens);
         
         String expectedOutput = "60" + System.lineSeparator();
-        assertEquals("La evaluación de la expresión ( * ( + 10 2 ) ( - 8 3 ) ) debe imprimir 60",
+        assertEquals("La evaluación de la expresión ( print ( * ( + 10 2 ) ( - 8 3 ) ) ) debe imprimir 60",
                      expectedOutput, outContent.toString());
     }
     
     /**
      * Caso de prueba 3:
-     * Entrada: ["(", "/", "(", "-", "(", "*", "6", "7", ")", "10", ")", "(", "+", "3", "2", ")", ")"]
-     * Se espera que se imprima “8”.
+     * Entrada: ["(", "print", "(", "/", "(", "-", "(", "*", "6", "7", ")", "10", ")", "(", "+", "3", "5", ")", ")", ")"]
+     * Se espera que se imprima “4”.
+     * 
+     * Cálculo:
+     *   ( * 6 7 )   => 42  
+     *   ( - 42 10 ) => 32  
+     *   ( + 3 5 )   => 8  
+     *   ( / 32 8 )  => 4
      */
     @Test
     public void testEvaluarDivisionConRestaYMultiplicacion() {
         ArrayList<String> tokens = new ArrayList<>(Arrays.asList(
-            "(", "/", "(", "-", "(", "*", "6", "7", ")", "10", ")", "(", "+", "3", "5", ")", ")"
+            "(", "print", "(", "/", "(", "-", "(", "*", "6", "7", ")", "10", ")", "(", "+", "3", "5", ")", ")", ")"
         ));
         Interprete interprete = new Interprete("");
         interprete.evaluar(tokens);
         
         String expectedOutput = "4" + System.lineSeparator();
-        assertEquals("La evaluación de la expresión ( / ( - ( * 6 7 ) 10 ) ( + 3 5 ) ) debe imprimir 4",
+        assertEquals("La evaluación de la expresión ( print ( / ( - ( * 6 7 ) 10 ) ( + 3 5 ) ) ) debe imprimir 4",
                      expectedOutput, outContent.toString());
     }
 }

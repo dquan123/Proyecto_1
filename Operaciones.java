@@ -122,15 +122,6 @@ public class Operaciones {
         return a == b;
     }
 
-    /**
-     * Función Quote que devuelve la lista de entrada sin modificaciones.
-     * @param argumentos Lista de enteros.
-     * @return La misma lista recibida como entrada.
-     */
-    public List<Integer> Quote(List<Integer> argumentos){
-        return argumentos; // Retorna esa misma lista sin hacer ningún cambio
-    }
-
     // HashMaps para almacenar diferentes tipos de variables
     private HashMap<String, Integer> enteros = new HashMap<>();
     private HashMap<String, String> Cadenas = new HashMap<>();
@@ -162,5 +153,22 @@ public class Operaciones {
     public Entorno getEntorno() {
         return this.entorno;
     }
+
+    public String buscarVariable(String nombre) {
+        // Buscar en enteros
+        if (this.entorno.getEnteros().containsKey(nombre)) {
+            return String.valueOf(this.entorno.getEnteros().get(nombre));
+        }
+        // Buscar en cadenas
+        if (this.entorno.getCadenas().containsKey(nombre)) {
+            return this.entorno.getCadenas().get(nombre);
+        }
+        // Buscar en booleanos
+        if (this.entorno.getBooleanos().containsKey(nombre)) {
+            return String.valueOf(this.entorno.getBooleanos().get(nombre));
+        }
+        return null;
+    }
+    
     
 }

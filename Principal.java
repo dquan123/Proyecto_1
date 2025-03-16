@@ -10,26 +10,31 @@ public class Principal {
         Scanner scanner = new Scanner(System.in);
         
         try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
-            String codigo = br.readLine().trim(); 
-
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line).append("\n");  // Agrega cada línea y un salto de línea
+            }
+            String codigo = sb.toString().trim(); // Código completo
+        
             if (codigo.isEmpty()) {
-                System.out.println("El archivo está vacío o contiene una línea vacía.");
+                System.out.println("El archivo está vacío o contiene solo líneas vacías.");
                 return;
             }
-
+        
             Interprete interprete = new Interprete(codigo);
             ArrayList<String> tokens = interprete.token(codigo);
-
+        
             System.out.println(tokens);
             System.out.println("\n");
-
+        
             interprete.evaluar(tokens);
-
-
+        
         } catch (IOException e) {
             System.out.println("Error al leer el archivo: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("Error en la evaluación: " + e.getMessage());
         }
+        
     }
 }
