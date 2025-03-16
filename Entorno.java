@@ -22,4 +22,15 @@ public class Entorno {
     public HashMap<String, Boolean> getBooleanos() {
         return this.Booleanos;
     }
+
+    /**
+     * Método buscar: recibe un nombre y un HashMap en el que buscará dicho nombre,
+     * retornando el valor asociado.
+     * @param nombre La clave a buscar.
+     * @param matriz El HashMap en el que se realizará la búsqueda.
+     * @return El valor asociado a la clave, o null si no se encuentra.
+     */
+    public Object buscar(String nombre, HashMap matriz) {
+        return matriz.get(nombre);
+    }
 }
