@@ -28,7 +28,7 @@ public class Operaciones {
      * @return true si el objeto no es una lista, false en caso contrario.
      */
     public boolean atom(Object obj) {
-        return !(obj instanceof ArrayList); // Devuelve true si el objeto no es una lista, false en caso contrario
+        return obj == null || !(obj instanceof List); 
     }
 
     /**

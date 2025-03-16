@@ -76,6 +76,20 @@ public void evaluar(ArrayList<String> tokens){
                 }
                 Collections.reverse(listaEnteros);
                 stack.push(String.valueOf(a.division(listaEnteros))); // Apilar el resultado
+            } else if (operador.equals("print")) {
+                Collections.reverse(temporal);
+                a.print(temporal.toString()); //Mostrar el resultado
+            } else if (operador.equals("atom")) {
+                Collections.reverse(temporal);
+                Object o = temporal;
+                Boolean re = a.atom(o); //Llama a la función
+                stack.push(re.toString());
+            } else if (operador.equals("list")) {
+                Collections.reverse(temporal);
+                Object o = temporal;
+                System.out.println(o);
+                Boolean re = a.list(o); //Llama a la función
+                stack.push(re.toString());
             }
             
         } else {
@@ -83,7 +97,6 @@ public void evaluar(ArrayList<String> tokens){
         }
     }
     
-    System.out.println("Resultado final en la pila: " + stack);
 }
 
 
