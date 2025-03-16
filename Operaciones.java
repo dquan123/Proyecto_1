@@ -158,4 +158,9 @@ public class Operaciones {
         }
         entorno.getCadenas().put(variable, valor); // Si nada de lo anterior funciona, entonces lo mete al hashmap de cadenas.
     }
+
+    public Entorno getEntorno() {
+        return this.entorno;
+    }
+    
 }

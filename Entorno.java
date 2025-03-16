@@ -6,20 +6,20 @@ public class Entorno {
     private HashMap<String, Boolean> Booleanos;
 
     public Entorno(){
-        HashMap<String, Integer> enteros = new HashMap<>();
-        HashMap<String, String> Cadenas = new HashMap<>();
-        HashMap<String, Boolean> Booleanos = new HashMap<>();
+        this.enteros = new HashMap<>();
+        this.Cadenas = new HashMap<>();
+        this.Booleanos = new HashMap<>();
     }
 
     public HashMap<String, String> getCadenas() {
-        return Cadenas;
+        return this.Cadenas;
     }
 
     public HashMap<String, Integer> getEnteros() {
-        return enteros;
+        return this.enteros;
     }
 
     public HashMap<String, Boolean> getBooleanos() {
-        return Booleanos;
+        return this.Booleanos;
     }
 }
