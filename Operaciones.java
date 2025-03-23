@@ -169,6 +169,36 @@ public class Operaciones {
         }
         return null;
     }
+
+    /**
+     * Función que se encarga de evaluar todas las cláusulas condicionales.
+     * Devuelve el valor en donde se cumple true.
+     * @param Object[][] Cláusulas condicionales.
+     * @param e Valor else a regresar en caso de que ninguna se cumpla
+     */
+    public String cond(Object[][] condiciones, String e) {
+        for (int c = 0; c < condiciones.length; c++) {
+            Object condObj = condiciones[c][0];
+            boolean condicion;
+            if (condObj instanceof Boolean) {
+                condicion = (Boolean) condObj;
+            } else {
+                // Si no es Boolean, lo convertimos a String y comparamos ignorando mayúsculas.
+                String condStr = String.valueOf(condObj).toLowerCase();
+                condicion = condStr.equals("true") || condStr.equals("t");
+            }
+            if (condicion) {
+                return String.valueOf(condiciones[c][1]);
+            }
+        }
+        return e;
+    }
+    
+    
+    
+    
+    
+    
     
     
 }

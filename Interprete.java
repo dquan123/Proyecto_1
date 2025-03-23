@@ -29,7 +29,15 @@ public class Interprete {
 
 //Función que evalúa toda la expresión (El programa)
 public void evaluar(ArrayList<String> tokens){
-    Operaciones a = new Operaciones();
+    // Si la cadena contiene "cond", usamos el proceso especial; sino, la evaluación normal
+    if (cadena.contains("cond")) {
+        evaluarCond(tokens, new Operaciones());
+    } else {
+        evaluarNormal(tokens, new Operaciones());
+    }
+}
+
+private void evaluarNormal(ArrayList<String> tokens, Operaciones a) {
     Stack<String> stack = new Stack<>();
     boolean printed = false; // Bandera para saber si se ejecutó un print
     
@@ -198,6 +206,155 @@ public void evaluar(ArrayList<String> tokens){
     }    
     
 }
+
+
+private void evaluarCond(ArrayList<String> tokens, Operaciones a) {
+    // Buscar el bloque "cond" en los tokens.
+    int indexCond = tokens.indexOf("cond");
+    if (indexCond == -1) {
+        evaluarNormal(tokens, a);
+        return;
+    }
+    // Retroceder hasta encontrar el "(" que abre la expresión cond.
+    int start = indexCond - 1;
+    while (start >= 0 && !tokens.get(start).equals("(")) {
+        start--;
+    }
+    if (start < 0)
+        throw new RuntimeException("No se encontró el inicio de la expresión cond.");
+    
+    // Extraer los tokens del bloque cond usando un contador de paréntesis.
+    int count = 0;
+    ArrayList<String> condTokens = new ArrayList<>();
+    for (int i = start; i < tokens.size(); i++) {
+        String t = tokens.get(i);
+        if (t.equals("(")) count++;
+        if (t.equals(")")) count--;
+        condTokens.add(t);
+        if (count == 0)
+            break;
+    }
+    
+    // condTokens debería tener la forma: ["(", "cond", ...cláusulas..., ")"]
+    if (!condTokens.isEmpty() && condTokens.get(0).equals("("))
+        condTokens.remove(0);
+    if (!condTokens.isEmpty() && condTokens.get(condTokens.size()-1).equals(")"))
+        condTokens.remove(condTokens.size()-1);
+    if (!condTokens.isEmpty() && condTokens.get(0).equals("cond"))
+        condTokens.remove(0);
+    
+    // Ahora, extraer cláusulas.
+    // Se espera que cada cláusula esté escrita como: ((<cond-exp>) <resultado>)
+    // Por ejemplo: (((> 5 3)) "Mayor")
+    ArrayList<Object[]> clausesList = new ArrayList<>();
+    int i = 0;
+    String defaultResult = null;
+    while (i < condTokens.size()) {
+        if (condTokens.get(i).equals("(")) {
+            // Extraer la condición (que puede estar entre paréntesis) y luego el resultado.
+            int clauseCount = 1;
+            i++; // Saltar el "(" que abre la cláusula.
+            ArrayList<String> conditionTokens = new ArrayList<>();
+            // Si la condición está entre paréntesis, extraerla.
+            if (i < condTokens.size() && condTokens.get(i).equals("(")) {
+                clauseCount = 1;
+                i++; // Saltar el "(" que abre la condición.
+                while (i < condTokens.size() && clauseCount > 0) {
+                    String tk = condTokens.get(i);
+                    if (tk.equals("(")) clauseCount++;
+                    else if (tk.equals(")")) clauseCount--;
+                    if (clauseCount > 0) {
+                        conditionTokens.add(tk);
+                    }
+                    i++;
+                }
+            } else if (i < condTokens.size()) {
+                // Si no hay paréntesis, la condición es el token actual.
+                conditionTokens.add(condTokens.get(i));
+                i++;
+            }
+            // Ahora, el siguiente token se asume que es el resultado de la cláusula.
+            String resToken = "";
+            if (i < condTokens.size()) {
+                resToken = condTokens.get(i).trim();
+                i++;
+            }
+            // Opcional: saltar cualquier token de cierre extra (si lo hubiera)
+            while (i < condTokens.size() && condTokens.get(i).equals(")")) {
+                i++;
+            }
+            // Si la condición es literal "else" o "t", la tomamos como default.
+            if (!conditionTokens.isEmpty() && (conditionTokens.get(0).equalsIgnoreCase("else") || conditionTokens.get(0).equalsIgnoreCase("t"))) {
+                defaultResult = resToken;
+            } else {
+                // Evaluar la condición usando evaluarSubexpresion para obtener "true" o "false".
+                String condEval = evaluarSubexpresion(conditionTokens, a);
+                boolean condVal = condEval.trim().equalsIgnoreCase("true") || condEval.trim().equalsIgnoreCase("t");
+                clausesList.add(new Object[]{condVal, resToken});
+            }
+        } else {
+            i++;
+        }
+    }
+    
+    // Convertir la lista a una matriz.
+    Object[][] clausesArray = new Object[clausesList.size()][2];
+    for (int j = 0; j < clausesList.size(); j++) {
+        clausesArray[j] = clausesList.get(j);
+    }
+    
+    String condResult;
+    if (clausesArray.length == 0) {
+        condResult = defaultResult;
+    } else {
+        condResult = a.cond(clausesArray, defaultResult);
+    }
+    if (cadena.contains("print")) {
+        a.print(condResult);
+    }
+}
+
+// Método auxiliar para evaluar una subexpresión (condición) y devolver el resultado como String.
+// Esta versión es muy simplificada y solo maneja comparaciones básicas: >, <, equal.
+private String evaluarSubexpresion(ArrayList<String> tokens, Operaciones a) {
+    // Unir los tokens en una cadena.
+    StringBuilder sb = new StringBuilder();
+    for (String t : tokens) {
+        sb.append(t).append(" ");
+    }
+    String expr = sb.toString().trim();
+    // Por ejemplo, si expr es "> 5 3", evaluarlo:
+    if (expr.startsWith(">")) {
+        String[] parts = expr.split("\\s+");
+        if (parts.length >= 3) {
+            int op1 = Integer.parseInt(parts[1]);
+            int op2 = Integer.parseInt(parts[2]);
+            return (op1 > op2) ? "true" : "false";
+        }
+    } else if (expr.startsWith("<")) {
+        String[] parts = expr.split("\\s+");
+        if (parts.length >= 3) {
+            int op1 = Integer.parseInt(parts[1]);
+            int op2 = Integer.parseInt(parts[2]);
+            return (op1 < op2) ? "true" : "false";
+        }
+    } else if (expr.startsWith("equal")) {
+        String[] parts = expr.split("\\s+");
+        if (parts.length >= 3) {
+            int op1 = Integer.parseInt(parts[1]);
+            int op2 = Integer.parseInt(parts[2]);
+            return (op1 == op2) ? "true" : "false";
+        }
+    } else if (expr.equalsIgnoreCase("true") || expr.equalsIgnoreCase("t")) {
+        return "true";
+    } else if (expr.equalsIgnoreCase("false")) {
+        return "false";
+    }
+    // Por defecto, si no se reconoce, se retorna la cadena tal cual.
+    return expr;
+}
+
+
 
 // Método para obtener la subexpresión literal a partir de los tokens sin evaluarlos
 private String obtenerSubexpresionLiteral(Stack<String> stack) {
