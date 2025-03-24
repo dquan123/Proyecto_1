@@ -172,22 +172,13 @@ public class Operaciones {
      */
     public String cond(Object[][] condiciones, String e) {
         for (int c = 0; c < condiciones.length; c++) {
-            Object condObj = condiciones[c][0];
-            boolean condicion;
-            if (condObj instanceof Boolean) {
-                condicion = (Boolean) condObj;
-            } else {
-                // Si no es Boolean, lo convertimos a String y comparamos ignorando mayúsculas.
-                String condStr = String.valueOf(condObj).toLowerCase();
-                condicion = condStr.equals("true") || condStr.equals("t");
-            }
-            if (condicion) {
+            if ((boolean) condiciones[c][0]) {  // Ahora sabemos que siempre es un booleano real
                 return String.valueOf(condiciones[c][1]);
             }
         }
         return e;
     }
-
+    
     public String defun(String nombre, List<String> parametros, List<String> cuerpo){
         FuncionLisp nuevafuncion = new FuncionLisp(parametros, cuerpo);
         this.entorno.getFunciones().put(nombre, nuevafuncion);
