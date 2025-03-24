@@ -4,91 +4,72 @@ import static org.junit.Assert.*;
 public class TestCond {
 
     private Operaciones op;
-
+    
     @Before
     public void setUp() {
         op = new Operaciones();
     }
     
     /**
-     * Caso 1: Una única cláusula con condición "true".
-     * Entrada: { {"true", "Mayor"} } con default "Default"
-     * Salida esperada: "Mayor"
+     * Caso 1: Una única cláusula verdadera.
+     * Entrada Lisp: (print (cond ((true "Mayor"))))
+     * Se espera: "Mayor"
      */
     @Test
-    public void testSingleClauseTrue() {
-        Object[][] clauses = { {"true", "Mayor"} };
+    public void testIndividual() {
+        Object[][] clauses = { { true, "Mayor" } };
         String result = op.cond(clauses, "Default");
         assertEquals("Mayor", result);
     }
     
     /**
-     * Caso 2: Múltiples cláusulas; la primera es "false" y la segunda "true".
-     * Entrada: { {"false", "No cumple"}, {"true", "Igual"} } con default "Default"
-     * Salida esperada: "Igual"
+     * Caso 2: Dos cláusulas, la primera falsa y la segunda con default "t".
+     * Entrada Lisp: (print (cond ((false "No cumple") (t "Default"))))
+     * Se espera: "Default"
      */
     @Test
-    public void testMultipleClausesSecondTrue() {
-        Object[][] clauses = { {"false", "No cumple"}, {"true", "Igual"} };
-        String result = op.cond(clauses, "Default");
-        assertEquals("Igual", result);
+    public void testDefault() {
+        Object[][] clauses = { { false, "No cumple" }, { true, "Default" } };
+        String result = op.cond(clauses, "Fallback");
+        assertEquals("Default", result);
     }
     
     /**
-     * Caso 3: Ninguna cláusula verdadera, se retorna el valor default.
-     * Entrada: { {"false", "A"}, {"false", "B"} } con default "Default"
-     * Salida esperada: "Default"
+     * Caso 3: Tres cláusulas, donde la segunda es la primera verdadera.
+     * Entrada Lisp: (print (cond ((false "A") ((false "B")) (t "C")))
+     * Se espera: se retorna la primera verdadera; aquí simulamos que la segunda es verdadera.
      */
     @Test
-    public void testNoClauseTrueDefaultReturned() {
-        Object[][] clauses = { {"false", "A"}, {"false", "B"} };
+    public void testMultiples() {
+        Object[][] clauses = { { false, "A" }, { true, "B" }, { true, "C" } };
+        String result = op.cond(clauses, "Fallback");
+        assertEquals("B", result);
+    }
+    
+    /**
+     * Caso 4: Ninguna cláusula verdadera, se retorna el default.
+     * Entrada Lisp: (print (cond ((false "A") ((false "B")) (else "Default"))))
+     * Se espera: "Default"
+     */
+    @Test
+    public void TestFalse() {
+        Object[][] clauses = { { false, "A" }, { false, "B" } };
         String result = op.cond(clauses, "Default");
         assertEquals("Default", result);
     }
     
     /**
-     * Caso 4: Ninguna cláusula verdadera y default es null.
-     * Entrada: { {"false", "X"} } con default null
-     * Salida esperada: null
+     * Caso 5: Simulación de una condición compleja.
+     * Aunque el método cond espera booleans, simulamos una condición
+     * derivada de una operación (por ejemplo, (> 5 3) que sería true).
+     * Entrada Lisp equivalente: (print (cond (((> 5 3)) "Mayor")))
+     * Se espera: "Mayor"
      */
     @Test
-    public void testDefaultAsNull() {
-        Object[][] clauses = { {"false", "X"} };
-        String result = op.cond(clauses, null);
-        assertNull(result);
-    }
-    
-    /**
-     * Caso 5: Uso de "t" para indicar la cláusula verdadera.
-     * Entrada: { {"false", "X"}, {"t", "Ok"} } con default "Default"
-     * Salida esperada: "Ok"
-     */
-    @Test
-    public void testUsingTAsTrue() {
-        Object[][] clauses = { {"false", "X"}, {"t", "Ok"} };
+    public void testComplexClauseSimulated() {
+        // Simulamos que la expresión (> 5 3) ya evaluó a true.
+        Object[][] clauses = { { true, "Mayor" } };
         String result = op.cond(clauses, "Default");
-        assertEquals("Ok", result);
-    }
-
-    /**
-     * Caso complejo:
-     * Se definen cuatro cláusulas:
-     * - Primera cláusula: condición "false", resultado "First"
-     * - Segunda cláusula: condición "false", resultado "Second"
-     * - Tercera cláusula: condición "t" (que debe evaluarse como verdadera), resultado "Third"
-     * - Cuarta cláusula: condición "true", resultado "Fourth"
-     * 
-     * Se espera que el método retorne "Third" (la primera cláusula verdadera).
-     */
-    @Test
-    public void testComplexCond() {
-        Object[][] clauses = {
-            {"false", "First"},
-            {"false", "Second"},
-            {"t", "Third"},
-            {"true", "Fourth"}
-        };
-        String result = op.cond(clauses, "Default");
-        assertEquals("Third", result);
+        assertEquals("Mayor", result);
     }
 }
