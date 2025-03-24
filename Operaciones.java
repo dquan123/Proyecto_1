@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Operaciones {
@@ -122,11 +121,6 @@ public class Operaciones {
         return a == b;
     }
 
-    // HashMaps para almacenar diferentes tipos de variables
-    private HashMap<String, Integer> enteros = new HashMap<>();
-    private HashMap<String, String> Cadenas = new HashMap<>();
-    private HashMap<String, Boolean> Booleanos = new HashMap<>();
-
     /**
      * Función que asigna un valor a una variable en el entorno de ejecución.
      * La variable puede ser de tipo entero, booleano o cadena.
@@ -193,12 +187,11 @@ public class Operaciones {
         }
         return e;
     }
-    
-    
-    
-    
-    
-    
-    
+
+    public String defun(String nombre, List<String> parametros, List<String> cuerpo){
+        FuncionLisp nuevafuncion = new FuncionLisp(parametros, cuerpo);
+        this.entorno.getFunciones().put(nombre, nuevafuncion);
+        return nombre;
+    }
     
 }

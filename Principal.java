@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Principal {
     public static void main(String[] args) {
-        String ruta = "C:\\Users\\dquan\\OneDrive\\Documentos\\Diego Quan\\UVG\\Ciclo 3\\Algoritmos y Estructura de datos\\Proyecto 1 Interprete\\Proyecto_1\\Codigo.txt";
+        String ruta = "\\C:\\Users\\rogue\\OneDrive\\Escritorio\\uvg tareas y clases\\PROGRAMAS\\PROYECTO\\Codigo.txt\\";
         Scanner scanner = new Scanner(System.in);
         
         try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
