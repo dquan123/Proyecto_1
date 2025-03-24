@@ -28,12 +28,11 @@ public class Interprete {
     }
 
 //Función que evalúa toda la expresión (El programa)
-public void evaluar(ArrayList<String> tokens){
-    // Si la cadena contiene "cond", usamos el proceso especial; sino, la evaluación normal
-    if (cadena.contains("cond")) {
-        evaluarCond(tokens, new Operaciones());
+public void evaluar(ArrayList<String> tokens, Operaciones a) {
+    if (tokens.contains("cond")) {  // Verifica si "cond" está en cualquier parte de la expresión
+        evaluarCond(tokens, a);
     } else {
-        evaluarNormal(tokens, new Operaciones());
+        evaluarNormal(tokens, a);
     }
 }
 
@@ -246,7 +245,6 @@ private boolean evaluarSubexpresion(ArrayList<String> tokens, Operaciones a) {
     String op1Str = tokens.get(1);
     String op2Str = tokens.get(2);
 
-    // Verificar si los operandos son números antes de convertirlos
     if (!op1Str.matches("-?\\d+") || !op2Str.matches("-?\\d+")) {
         throw new RuntimeException("Los operandos de '" + operador + "' deben ser números, pero se encontraron: " + op1Str + " y " + op2Str);
     }    int op1 = Integer.parseInt(tokens.get(1));
@@ -290,7 +288,6 @@ private void evaluarCond(ArrayList<String> tokens, Operaciones a) {
     String defaultResult = null;
 
     for (String clauseStr : clauseStrings) {
-        // Limpiar paréntesis de la cláusula
         String clauseContent = clauseStr;
         if (clauseContent.startsWith("(") && clauseContent.endsWith(")"))
             clauseContent = clauseContent.substring(1, clauseContent.length() - 1).trim();
