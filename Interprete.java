@@ -187,7 +187,29 @@ private void evaluarNormal(ArrayList<String> tokens, Operaciones a) {
                      // Lisp devuelve el valor asignado, por eso lo apilamos.
                      stack.push(valor);
                 }
-            }
+            }else if (operador.equals("defun")) {
+                Collections.reverse(temporal);
+                // Extraer el nombre de la función (el primer token)
+                String functionName = temporal.get(0);
+                temporal.remove(0);
+                // Extraer la lista de parámetros (entre paréntesis)
+                ArrayList<String> paramTokens = new ArrayList<>();
+                if (!temporal.isEmpty() && temporal.get(0).equals("(")) {
+                    temporal.remove(0); // Quitar el "("
+                    while (!temporal.isEmpty() && !temporal.get(0).equals(")")) {
+                        paramTokens.add(temporal.get(0));
+                        temporal.remove(0);
+                    }
+                    if (!temporal.isEmpty() && temporal.get(0).equals(")")) {
+                        temporal.remove(0); // Quitar el ")"
+                    }
+                }
+                // Lo que queda en 'temporal' es el cuerpo de la función (lista de tokens)
+                ArrayList<String> bodyTokens = new ArrayList<>(temporal);
+                // Llamar a defun en Operaciones y obtener el nombre de la función definida
+                String defunResult = a.defun(functionName, paramTokens, bodyTokens);
+                stack.push(defunResult);
+                }
             
             
         } else {
